@@ -20,6 +20,7 @@ typedef struct _node
 int addpt(node** npoint,int idata);
 void preorder(node * root);
 void inorder(node * root);
+void postorder(node * root);
 void release_memory(node ** root);
 
 const int size_of_node = 10;
@@ -37,10 +38,12 @@ int main(int argc, const char * argv[])
             break;
         }
     }
+    std::cout << "pre order :";
     preorder(root);
-    std::cout<<std::endl;
+    std::cout << std::endl << "in order";
     inorder(root);
-    std::cout<<std::endl;
+    std::cout << std::endl << "post order:";
+    postorder(root);
     release_memory(&root);
     return 0;
 }
@@ -52,15 +55,19 @@ int addpt(node** npoint,int idata)
         if(*npoint==NULL)
         {
             *npoint=new node;
-            (*npoint)->lchild=NULL;
-            (*npoint)->rchild=NULL;
+            (*npoint)->lchild = NULL;
+            (*npoint)->rchild = NULL;
             (*npoint)->data=idata;
             return SUCCESS;
         }
-        if((*npoint)->data > idata)
+        else if((*npoint)->data > idata)
+        {
             npoint=&(*npoint)->lchild;
+        }
         else if((*npoint)->data < idata)
+        {
             npoint=&(*npoint)->rchild;
+        }
     }
     return ERROR;
 }
@@ -82,6 +89,16 @@ void inorder(node * root)
         inorder(root->lchild);
         std::cout<<root->data<<"  ";
         inorder(root->rchild);
+    }
+}
+
+void postorder(node * root)
+{
+    if(root)
+    {
+        inorder(root->lchild);
+        inorder(root->rchild);
+        std::cout<<root->data<<"  ";
     }
 }
 
